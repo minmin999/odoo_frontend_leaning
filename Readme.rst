@@ -1,4 +1,4 @@
 Odoo前端技术学习
   
-  .. image:: static/image/page.png
+  .. image:: odoo_frontend_leaning/static/image/page.png
     :class: img-responsive
