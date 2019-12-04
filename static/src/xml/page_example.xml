@@ -427,15 +427,15 @@ var ArticleSectionWidget = Widget.extend({
 
         <h3 id="t2_7">2.6 总结</h3>
         <p>Widget是Odoo前端开发的基础。</p>
-        <h2>3. 用组件开发页面</h2>
-        <h3>3.1 页面结构</h3>
+        <h2 id="t3">3. 用组件开发页面</h2>
+        <h3 t="t3_1">3.1 页面结构</h3>
         <p>我们现在看到的这个页面是由4个Widget嵌套实现的，页面结构如下所示。</p>
         <img src="/odoo_frontend_leaning/static/image/page.png" alt="页面结构"/>
         <p>嵌套的组件具有父子关系。打开页面时，要先把父组件添加(实例化并渲染)到页面，再把子组件添加到父组件内部。这个页面会按照以下步骤实例化各个组件：</p>
         <ol>
         <li><p>点击菜单时，会自动实例化OdooCustomPageAction组件</p></li>
             <li id="action">
-            <p>在OdooCustomPageAction组件的start方法里实例化ArticleWidget组件</p>
+                <p>在OdooCustomPageAction组件的start方法里实例化ArticleWidget组件</p>
                 <div class="highlight-javascript">
                 <div class="highlight">
                     <pre>
@@ -504,15 +504,75 @@ start: function () {
             </li>
         </ol>
 
-        <h3>3.2 客户端动作</h3>
+        <h3 id="t3_2">3.2 客户端动作</h3>
         <p>OdooCustomPageAction 是一个客户端动作，它需要和菜单关联起来。</p>
         <ol>
             <li>定义并注册OdooCustomPageAction，如<a href="#action">上图</a></li>
             <li>
-                <p>定义一个动作，并和菜单关联</p>
-                
+                <p>在后端定义一个动作，并和菜单关联</p>
+            <div class="highlight-xml">
+            <div class="highlight">
+                <pre><xmp><![CDATA[<!--定义一个打开自定义页面的动作, 注意model是ir.actions.client-->
+<record id="action_odoo_frontend_learning1" model="ir.actions.client">
+    <field name="name">前端框架基础</field>
+    <!--/static/src/js/webclient_example.js指定注册的客户端动作-->
+    <field name="tag">odoo_custom_page_action</field>
+</record>
+
+<menuitem id="menu_odoo_frontend_learning1"
+      parent="menu_odoo_frontend_learning_root"
+      name="前端框架基础"
+      action="action_odoo_frontend_learning1"
+      sequence="10"/>]]></xmp></pre>
+            </div>
+        </div>
             </li>
         </ol>
+            <h2 id="t4">4. Odoo JavaScript模块</h2>
+            <p>以上定义的js代码都包含在odoo.define()里面, 这是一个js模块，可以在其他文件里面导入。</p>
+            <div class="highlight-javascript">
+                <div class="highlight">
+                    <pre>
+// 定义一个Odoo JavaScript模块
+// 格式 odoo.define(模块名称, 一个函数);
+odoo.define('odoo_frontend_leaning.OdooCustomPageExample', function (require) {
+
+    // 导入要用到的其他模块
+    var AbstractAction = require('web.AbstractAction');
+    var core = require('web.core');
+    // 导入我们自己定义的模块
+    var ArticleWidget = require('odoo_frontend_leaning.OdooJsArticle').ArticleWidget;
+
+    var OdooCustomPageAction = AbstractAction.extend({
+
+    });
+
+    // 用于在在其他模块取到这个对象
+    // 比如 var OdooCustomPageAction = require('odoo_frontend_leaning.OdooCustomPageExample');
+    return OdooCustomPageAction;
+
+});</pre>
+                </div>
+            </div>
+            <h2 id="t5">5.最后一步</h2>
+            <p>将定义的js, css文件添加到asset，这样文件就会被加载到页面。</p>
+            <div class="highlight-xml">
+            <div class="highlight">
+                <pre><xmp><![CDATA[<template id="assets_backend" inherit_id="web.assets_backend">
+    <xpath expr="." position="inside">
+        <script type="text/javascript"
+                src="/odoo_frontend_leaning/static/src/js/article.js"/>
+        <script type="text/javascript"
+                src="/odoo_frontend_leaning/static/src/js/webclient_example.js"/>
+        <link rel="stylesheet"
+              href="/odoo_frontend_leaning/static/src/css/style.scss"/>
+        <link rel="stylesheet"
+              href="/odoo_frontend_leaning/static/src/css/article.css"/>
+    </xpath>
+</template>]]></xmp></pre>
+            </div>
+        </div>
+            <p>其他请参见模块代码。</p>
         </div>
     </t>
 

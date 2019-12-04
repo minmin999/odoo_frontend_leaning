@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <record id="action_odoo_frontend_learning11" model="ir.actions.client">
-        <field name="name">前端框架概述</field>
+    <!--定义一个打开自定义页面的动作, 注意model是ir.actions.client-->
+    <record id="action_odoo_frontend_learning1" model="ir.actions.client">
+        <field name="name">前端框架基础</field>
+        <!--/static/src/js/webclient_example.js指定注册的客户端动作-->
         <field name="tag">odoo_custom_page_action</field>
     </record>
 
@@ -23,7 +25,7 @@
     <menuitem id="menu_odoo_frontend_learning1"
               parent="menu_odoo_frontend_learning_root"
               name="前端框架基础"
-              action="action_odoo_frontend_learning11"
+              action="action_odoo_frontend_learning1"
               sequence="10"/>
 
     <menuitem id="menu_odoo_frontend_learning"

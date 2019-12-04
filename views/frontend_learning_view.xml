@@ -33,8 +33,6 @@
                             <field name="boolean"/>
                             <field name="date"/>
                             <field name="datetime"/>
-                            <field name="account_mon"/>
-                            <field name="account_mon2" widget="monthpicker"/>
                         </group>
                         <group name="right">
 
@@ -119,6 +117,7 @@
                         </div>
                     </group>
                     <separator string="2. 自定义页面风格" style="font-size: 26px;"/>
+                    <p>待续</p>
                 </sheet>
             </form>
         </field>

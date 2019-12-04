@@ -12,7 +12,7 @@ odoo.define('odoo_frontend_leaning.OdooCustomPageExample', function (require) {
     // 导入我们自己定义的模块
     var ArticleWidget = require('odoo_frontend_leaning.OdooJsArticle').ArticleWidget;
 
-    // 步骤1.3. 通过继承AbstractAction定义一个打开一个页面的客户动作
+    // 步骤1.3.通过继承AbstractAction定义一个打开一个页面的客户动作
     var OdooCustomPageAction = AbstractAction.extend({
         // 指定用于渲染打开页面的模板, 模板定义在odoo_frontend_leaning/static/src/xml/page_example.xml
         template: 'odoo.custom.page',
@@ -38,6 +38,7 @@ odoo.define('odoo_frontend_leaning.OdooCustomPageExample', function (require) {
     // </record>
     core.action_registry.add('odoo_custom_page_action', OdooCustomPageAction);
 
+    return OdooCustomPageAction;
 });
 
 // 步骤1.5.添加到assets, 用于在页面上加载这个文件, 例如\views\templates.xml
