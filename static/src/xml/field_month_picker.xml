@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="FieldMonthPicker">
+        <div class="o_field_month_picker">
+            <div class="o_link_dialog_color">
+                <input class="picker_year" type0="number"
+                       t-att-value="widget.year" step="1"/>
+                <t t-set="months" t-value="_.range(1,13)"/>
+                <t t-foreach="months" t-as="m">
+                    <label t-att-class="'o_link_dialog_color_item btn ' + (widget.month===m ? 'btn-primary':'btn-info')">
+                        <span><t t-esc="m"/>月</span>
+                        <input class="hidden link-style" name="link-style-type" type="radio"
+                               t-att-value="m"/>
+                        <i class="fa"/>
+                    </label>
+                </t>
+            </div>
+        </div>
+    </t>
+
+</templates>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!--定义一个模板-->
+    <t t-name="simple.widget">
+        <!--模板的根元素, 注意只能有一个根元素, 即这个元素不能再有其他同级元素-->
+        <div class="simple">
+            <!-- t-xx 都是qweb模板的标签, widget.xx 是模板要渲染的数据-->
+            <h2><t t-esc="widget.text"/></h2>
+            <t t-if="widget.show_image and widget.image">
+                <img id="image" t-att-src="widget.image" alt="图片"/>
+            </t>
+        </div>
+    </t>
+
+    <!-- 最好在 odoo_frontend_leaning/__manifest__.py 文件中需要指定：
+        'qweb': ['static/src/xml/*.xml']
+        这样，odoo会在渲染widget之前，先加载这里的模板。否则有时会出现渲染widget时，模板还没有加载的问题。
+    -->
+
+</templates>

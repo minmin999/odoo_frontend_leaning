@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="assets_backend" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript"
+                    src="/odoo_frontend_leaning/static/lib/number.js"/>
+            <script type="text/javascript"
+                    src="/odoo_frontend_leaning/static/src/js/month_picker.js"/>
+            <script type="text/javascript"
+                    src="/odoo_frontend_leaning/static/src/js/article.js"/>
+            <script type="text/javascript"
+                    src="/odoo_frontend_leaning/static/src/js/webclient_example.js"/>
+            <link rel="stylesheet"
+                  href="/odoo_frontend_leaning/static/lib/number.scss"/>
+            <link rel="stylesheet"
+                  href="/odoo_frontend_leaning/static/src/css/style.scss"/>
+            <link rel="stylesheet"
+                  href="/odoo_frontend_leaning/static/src/css/article.css"/>
+        </xpath>
+    </template>
+
+</odoo>

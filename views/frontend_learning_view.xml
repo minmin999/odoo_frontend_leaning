@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_odoo_frontend_learning_tree" model="ir.ui.view">
+        <field name="name">odoo.frontend.learning.tree</field>
+        <field name="model">odoo.frontend.learning</field>
+        <field name="type">tree</field>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <tree string="Odoo前端技术">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_odoo_frontend_learning_form" model="ir.ui.view">
+        <field name="name">odoo.frontend.learning.form</field>
+        <field name="model">odoo.frontend.learning</field>
+        <field name="type">form</field>
+        <field name="inherit_id" eval="False"/>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <form string="Odoo前端技术">
+                <header>
+                </header>
+                <sheet>
+                    <separator string="1. 字段小部件" style="font-size: 26px;"/>
+                    <group name="what" string="1.1. 什么是字段小部件">
+                    </group>
+                    <group name="self-having" string="1.2. Odoo自带的小部件">
+                        <group name="left">
+                            <field name="integer"/>
+                            <field name="boolean"/>
+                            <field name="date"/>
+                            <field name="datetime"/>
+                            <field name="account_mon"/>
+                            <field name="account_mon2" widget="monthpicker"/>
+                        </group>
+                        <group name="right">
+
+                        </group>
+                        <div style="width: 100%;">
+                            可以在这个文件里面查到所有odoo自带的小部件：addons/web/static/src/js/fields/field_registry.js
+                        </div>
+                    </group>
+                    <group name="usage" string="1.3. 如何使用的小部件">
+                        <label for="code" string="1.3.1. 不指定widget属性:"/>
+                        <div style="margin-bottom: 20px">
+                            <div>
+                                没有指定widget属性，默认使用字段类型对应的小部件。
+                            </div>
+                            <field name="name" nolabel="1" style="width: 200px"/>
+                        </div>
+                        <label for="char" string="1.3.2. 指定widget属性:"/>
+                        <div style="margin-bottom: 20px">
+                            <div>
+                                指定widget属性，使用指定的小部件。比如，这里指定了widget="CopyClipboardChar"。
+                            </div>
+                            <field name="char" nolabel="1" widget="CopyClipboardChar"
+                                   style="width: 300px !important;"/>
+                        </div>
+                        <label for="code" string="1.3.3. 指定options属性:"/>
+                        <div style="margin-bottom: 20px">
+                            <div>
+                                比如一个使用many2one小部件的字段＜field name="user_id"/＞，默认下拉框有创建按钮，右侧有打开按钮
+                            </div>
+                            <field name="user_id" nolabel="1"
+                                   style="width: 200px !important;"/>
+                        </div>
+                        <label for="code" string=""/>
+                        <div style="margin-bottom: 20px">
+                            <div>
+                                通过设置options属性,＜field name="user_id" options="{'no_create': 1, 'no_open': True}"/＞, 可以隐藏创建和打开按钮。
+                            </div>
+                            <field name="user_id2" nolabel="1"
+                                   options="{'no_create': 1, 'no_open': True}"
+                                   style="width: 200px !important;"/>
+                        </div>
+
+                        <label for="process_type" string=""/>
+                        <div style="margin-bottom: 20px">
+                            <div>
+                                比如一个单选框小部件＜field name="process_type" widget="radio"/＞，默认是竖向排列的。
+                            </div>
+                            <field name="process_type" nolabel="1"
+                                   widget="radio"
+                                   style="width: 200px !important;"/>
+                        </div>
+                        <label for="process_type2" string=""/>
+                        <div style="margin-bottom: 20px">
+                            <div>
+                                通过设置options属性,＜field name="process_type" widget="radio" options="{'horizontal': true}"/＞, 可以改成横向排列。
+                            </div>
+                            <field name="process_type2" nolabel="1"
+                                   widget="radio" options="{'horizontal': true}"
+                                   style="width: 200px !important;"/>
+                            <div>再比如，我们系统中上传图片的小部件，＜field name="images" widget="image_field_widget" options="{'max-count': 1}"/＞，
+                                默认可以上传n张图片，通过传递max-count参数，在不同的页面设置不同的可以上传的图片数量。</div>
+                            <div style="color:red">
+                                总结：options属性主要用于在使用小部件的地方，传递一些自定义数据到小部件内部。
+                            </div>
+                        </div>
+                    </group>
+                    <group name="custom" string="1.4. 自定义小部件">
+                        <label for="" string="1.4.1 实现原理"/>
+                        <div>
+                            <div>Odoo已经提供了一套实现小部件机制，能够将字段值，传递到模板，渲染成html代码，并插入到页面的Dom。</div>
+                        </div>
+                        <label for="" string="1.4.2 层级关系"/>
+                        <div>
+                            <div>实现自己的小部件时，可以从最底层的AbstractField继承，也可以从它下级小部件的继承。</div>
+                            <div>
+                                <img alt="" src="/odoo_frontend_leaning/static/image/widget.png"></img>
+                            </div>
+                        </div>
+                        <label for="" string="1.4.3 实现步骤"/>
+                        <div>
+                            <div>Odoo已经提供了一套实现小部件机制，能够将字段值，传递到模板，渲染成html代码，并插入到页面的文档对象模型(Dom)。</div>
+                        </div>
+                    </group>
+                    <separator string="2. 自定义页面风格" style="font-size: 26px;"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
