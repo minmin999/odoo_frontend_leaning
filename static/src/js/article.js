@@ -183,15 +183,16 @@ odoo.define('odoo_frontend_leaning.OdooJsArticle', function (require) {
         },
         do_set: function (ev) {
             // 演示2种设置组件的属性值的方法
-            this.text = "text1"; // 1.直接设置
-            this.do_notify('提示', "text的值是：" + this.text); // 直接获取
+            this.text = "text1"; // 1.直接在this上设置
+            this.do_notify('提示', "text的值是：" + this.text); // 直接在this上获取
 
             this.set('show_image', true); // 2.通过set方法设置
             this.do_notify('提示', "show_image的值是：" + this.get('show_image')); // 通过get方法获取
 
-            // 通过set方法设置属性值得好处是, 值修改时会自动触发一个change方法
             var self = this;
-            this.on("change:show_image", this, function (ev) { // 监听这个事件，并绑定处理函数
+            // 通过set方法设置属性值得好处是, 值修改时会自动触发一个change方法
+            // 监听这个事件，并绑定处理函数
+            this.on("change:show_image", this, function (ev) { // 注意事件名必须是 "change:属性名"
                 self.do_warn('提示', "show_image的值被改成了: " + ev.get('show_image'));
             });
 
