@@ -3,15 +3,18 @@ odoo.define('odoo_frontend_leaning.OdooJsArticle', function (require) {
     var Widget = require('web.Widget');
     var core = require('web.core');
 
+    // 定义Class1类， 它继承了core.Class, 因此它有了extend和include方法
     var Class1 = core.Class.extend({
         function1: function () {
             alert('调用了Class1.function1');
         }
     });
 
+    // 定义Class2类， 它继承了Class1，它就拥有了Class1里面定义的方法和属性
     var Class2 = Class1.extend({ // Class2继承了Class1
         function1: function () { //重写了Class1的方法
-            this._super(); // 调用了父类的方法
+            // 调用父类中**同名**的方法，使用这个方法实现了代码重用
+            this._super(); // 背后的实现是, 把这行代码替换成Class1.function1里面的代码
             alert('调用了Class2.function1'); // 添加了自己的代码
         },
         function2: function () { // 定了了一个自己的方法
@@ -22,23 +25,42 @@ odoo.define('odoo_frontend_leaning.OdooJsArticle', function (require) {
     var class1 = new Class1();
     var class2 = new Class2();
 
-    var Class3 = core.Class.extend({
+    // 定义Class3类， 它继承了Class2，它就拥有了Class1,Class2里面定义的方法和属性
+    var Class3 = Class2.extend({
+        // 重写父类的方法, 调用了_super执行父类的代码
         function1: function () {
+            this._super(); // 调用了父类的方法
             alert('调用了Class3.function1');
         }
     });
 
+    // 用include方法扩展已有的Class3类，重写原来的方法，或添加新的方法
     Class3.include({ // 扩展了Class3
-        function1: function () { //重写了Class3的方法
-            this._super(); // 调用了之前的方法
-            alert('调用了Class3.function1-扩展'); // 添加了自己的代码
-        },
+        // 覆盖了父类的方法, 不调用_super, 父类代码不会执行
         function2: function () { // 定了了一个自己的方法
             alert('调用了Class3.function2');
+        },
+        function3: function () { // 通过这个定义, 给function3添加了一个新方法
+            alert('调用了Class3.function3');
         }
     });
 
     var class3 = new Class3();
+
+    // 定义一个ClassMixin对象
+    var ClassMixin = {
+        function5: function() {
+            alert('ClassMixin.function5');
+        }
+    };
+
+    // 定义Class4类, 它继承Class3的同时还混入了一个ClassMixin， 它因此拥有了Class1,2,3和ClassMixin的方法和属性，就是这么神奇！
+    var Class4 = Class3.extend(ClassMixin, {
+        function4: function() {
+            alert('Class4.function4');
+        }
+    });
+    var class4 = new Class4();
 
     // 定义一个最简单的Widget
     var SimpleWidget = Widget.extend({
@@ -76,6 +98,18 @@ odoo.define('odoo_frontend_leaning.OdooJsArticle', function (require) {
             },
             'click .cls3-f2': function (e) {
                 class3.function2();
+            },
+            'click .cls4-f1': function (e) {
+                class4.function1();
+            },
+            'click .cls4-f3': function (e) {
+                class4.function3();
+            },
+            'click .cls4-f4': function (e) {
+                class4.function4();
+            },
+            'click .cls4-f5': function (e) {
+                class4.function5();
             },
             'click .showSimpleWidget': 'showSimpleWidget',
             'click .destroySimpleWidget': 'destroySimpleWidget',
