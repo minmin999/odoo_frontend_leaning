@@ -64,12 +64,13 @@ odoo.define('odoo_frontend_leaning.OdooJsArticle', function (require) {
 
     // 定义一个最简单的Widget
     var SimpleWidget = Widget.extend({
-        // 指定模板
+        // 指定模板, 定义在 \\static\\src\\xml\\simple_widget.xml 文件中
         template: 'simple.widget',
         // 重写init方法
         init: function (parent, text, show_image, image) {
             // 调用父类的init方法
             this._super.apply(this, arguments);
+            // 将变量绑定到属性, 将可以在模板中引用
             this.text = text;
             this.show_image = show_image;
             this.image = image;

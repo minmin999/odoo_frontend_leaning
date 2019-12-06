@@ -143,18 +143,32 @@ var Class4 = Class3.extend(ClassMixin, {
         <h3 id="t2_1">2.1. Widget对象的代码</h3>
         <div class="highlight-javascript">
             <div class="highlight">
-                <pre>var Widget = core.Class.extend(mixins.PropertiesMixin, ServicesMixin, {
-    events: {}, // 用于绑定类似click之类的jquery事件，在页面上出发该事件时，执行事件绑定的代码
+                <pre>// 官方web模块代码, web\\static\\src\\js\\core\\widget.js
+// 定义了一个最底层的Widget, 它继承了core.Class, 并混入了mixins.PropertiesMixin, ServicesMixin
+var Widget = core.Class.extend(mixins.PropertiesMixin, ServicesMixin, {
+
+    // 常用属性
+    events: {}, // 用于注册类似click之类的jquery事件, 在页面上出发该事件时，执行事件绑定的代码
+    custom_events: {}, // 注册自定义事件。PropertiesMixin会自动在幕后用jquery的on和off方法绑定和解除事件。
     template: null, // 指定这个组件使用的xml模板，在组件插入到Dom的时候，会渲染成Html
+    $el: null, // 组件的根元素
+
+    // 组件添加到页面时调用的方法, 调用顺序也是如下所示
     init: function (parent) {...}, // 实例化组件的代码，一般要传入模板的数据就写在这里
+    appendTo: function (target) {...}, // 将组件插入到Bom中一个元素的内部，类似的方法还有insertAfter，insertBefore
     willStart: function () {...}, // 组件在插入Dom之前会调用该方法
-    start: function () {...}, // 组件在插入Dom时会调用该方法，模板渲染成Html就发生在这个时候
+    renderElement: function () {}, // 把模板和数据渲染成html
+    // 这中间有段代码, 渲染完成后, 根元素$el上已经有了整个组件的html,
+    // 然后用 $el.prependTo(target) 将html插入到页面上的target元素的开头位置
+    start: function () {...}, // 组件在插入Dom之后会调用该方法。这个时候，组件已经可以在页面上显示出来了
+
+    // 其他常用方法
     destroy: function () {...}, // 用于销毁组件
     do_hide: function () {...}, // 用于在页面上隐藏组件
     do_show: function () {...}, // 用于在页面上显示组件
     do_toggle: function (display) {...}, // 用于在页面上切换隐藏/显示组件
-    appendTo: function (target) {...}, // 渲染组件，并将组件插入到Bom中一个元素的内部，类似的方法还有insertAfter，insertBefore
     setElement: function (element) {...}, // 将组件挂载到到Bom中的一个元素, 并把这个元素作为根元素
+    $: function (selector) {}, 查找组件根元素下面的元素, 等同于 $el.find(selector)
 });</pre>
             </div>
         </div>
@@ -165,27 +179,16 @@ var Class4 = Class3.extend(ClassMixin, {
                 <pre>
 // 定义一个最简单的Widget
 var SimpleWidget = Widget.extend({
-    // 指定模板
+    // 指定模板, 定义在 \\static\\src\\xml\\simple_widget.xml 文件中
     template: 'simple.widget',
-    // 绑定事件, 格式：'事件名 jquery选择器': 函数对象或函数名
-    events: {
-        'click .hide_image': function (ev) {
-            this.$('#image').hide();
-        },
-        'click .show_image': 'show_image'
-    },
     // 重写init方法
     init: function (parent, text, show_image, image) {
         // 调用父类的init方法
         this._super.apply(this, arguments);
-        // 将变量传到模板中
+        // 将变量绑定到属性, 将可以在模板中引用
         this.text = text;
         this.show_imgae = show_image;
         this.image = image;
-    },
-    show_image: function (ev) {
-        // this.$('选择器')用于选中根元素下面的某个元素。和直接用$('选择器不同')，$是选中整个页面的元素
-        this.$('#image').show();
     }
 });</pre>
             </div>
@@ -326,7 +329,7 @@ var ArticleSectionWidget = Widget.extend({
                 </div>
                 <div>试一试:
                     <button type="button" class="btn btn-success open_form_view">打开一个视图</button>
-                    <button type="button" class="btn btn-success open_url">打开百度</button>
+                    <button type="button" class="btn btn-info open_url">打开百度</button>
                 </div>
             </li>
             <li>
