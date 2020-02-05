@@ -434,11 +434,6 @@ aside {
   display: block;
   border-right: 1px solid #F2F2F2;
 }
-@media (max-width: 992px) {
-  aside {
-    display: none;
-  }
-}
 .navbar-aside {
   position: relative;
   overflow: hidden;
